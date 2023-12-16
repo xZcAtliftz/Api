@@ -7,6 +7,23 @@ elseif placeId == 7449423635 then
     World3 = true
 end
 
+local function renameEnemies(parent)
+	for _, v in pairs(parent:GetChildren()) do
+		if v:IsA("Model") and v:FindFirstChild("Humanoid") and v.Name ~= v.Humanoid.DisplayName then
+			v.Name = v.Humanoid.DisplayName
+		end
+	end
+end
+
+task.spawn(function()
+	while task.wait() do
+		pcall(function()
+			renameEnemies(game.Workspace.Enemies)
+			renameEnemies(game:GetService("ReplicatedStorage"))
+		end)
+	end
+end)
+
 local questdata = {}
 
 questdata.CheckQuest = (function()
