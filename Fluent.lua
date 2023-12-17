@@ -1,25 +1,27 @@
-local Luxury = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
 local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
 local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
 
-local Window = Luxury:CreateWindow({
-    Title = "Luxury Hub | Premium",
-    SubTitle = "by xZc",
+local Window = Fluent:CreateWindow({
+    Title = "Fluent " .. Fluent.Version,
+    SubTitle = "by dawid",
     TabWidth = 160,
     Size = UDim2.fromOffset(580, 460),
     Acrylic = true, -- The blur may be detectable, setting this to false disables blur entirely
-    Theme = "Light",
+    Theme = "Dark",
     MinimizeKey = Enum.KeyCode.LeftControl -- Used when theres no MinimizeKeybind
 })
 
---Luxury provides Lucide Icons https://lucide.dev/icons/ for the tabs, icons are optional
+--Fluent provides Lucide Icons https://lucide.dev/icons/ for the tabs, icons are optional
 local Tabs = {
     Main = Window:AddTab({ Title = "Main", Icon = "" }),
     Settings = Window:AddTab({ Title = "Settings", Icon = "settings" })
 }
 
+local Options = Fluent.Options
+
 do
-    Luxury:Notify({
+    Fluent:Notify({
         Title = "Notification",
         Content = "This is a notification",
         SubContent = "SubContent", -- Optional
@@ -62,10 +64,34 @@ do
 
 
 
-    Tabs.Main:AddToggle("MyToggle", {Title = "Toggle", Default = false }):OnChanged(function(value)
-        print(value)
+    local Farm_Level = Tabs.Main:AddToggle("MyToggle", {Title = "FarmLevel", Default = false })
+
+    Farm_Level:OnChanged(function(value)
+        Ez = value
     end)
 
+	spawn(function()
+		while wait(1) do
+			if Ez then
+				print("Farm Level : Kuy Rai sus")
+			end
+		end
+	end)
+
+	local DBQ = Tabs.Main:AddToggle("MyToggle", {Title = "BleQuest", Default = false })
+
+    Farm_Level:OnChanged(function(value)
+        DBQ = value
+    end)
+
+	spawn(function()
+		while wait(.5) do
+			if DBQ then
+				print("Ble Quest : Kuy Rai sus")
+			end
+		end
+	end)
+    
     local Slider = Tabs.Main:AddSlider("Slider", {
         Title = "Slider",
         Description = "This is a slider",
@@ -84,24 +110,46 @@ do
 
     Slider:SetValue(3)
 
-    Tabs.Main:AddDropdown("Dropdown", {
+
+
+    local Dropdown = Tabs.Main:AddDropdown("Dropdown", {
         Title = "Dropdown",
         Values = {"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen"},
         Multi = false,
         Default = 1,
-    }):OnChanged(function(Value)
+    })
+
+    Dropdown:SetValue("four")
+
+    Dropdown:OnChanged(function(Value)
         print("Dropdown changed:", Value)
     end)
+
+
     
-    Tabs.Main:AddDropdown("MultiDropdown", {
+    local MultiDropdown = Tabs.Main:AddDropdown("MultiDropdown", {
         Title = "Dropdown",
         Description = "You can select multiple values.",
         Values = {"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen"},
         Multi = true,
         Default = {"seven", "twelve"},
-    }):OnChanged(function(Value)
-        print(Value)
+    })
+
+    MultiDropdown:SetValue({
+        three = true,
+        five = true,
+        seven = false
+    })
+
+    MultiDropdown:OnChanged(function(Value)
+        local Values = {}
+        for Value, State in next, Value do
+            table.insert(Values, Value)
+        end
+        print("Mutlidropdown changed:", table.concat(Values, ", "))
     end)
+
+
 
     local Colorpicker = Tabs.Main:AddColorpicker("Colorpicker", {
         Title = "Colorpicker",
@@ -113,6 +161,7 @@ do
     end)
     
     Colorpicker:SetValueRGB(Color3.fromRGB(0, 255, 140))
+
 
 
     local TColorpicker = Tabs.Main:AddColorpicker("TransparencyColorpicker", {
@@ -167,7 +216,7 @@ do
                 print("Keybind is being held down")
             end
 
-            if Luxury.Unloaded then break end
+            if Fluent.Unloaded then break end
         end
     end)
 
@@ -196,8 +245,8 @@ end
 -- InterfaceManager (Allows you to have a interface managment system)
 
 -- Hand the library over to our managers
-SaveManager:SetLibrary(Luxury)
-InterfaceManager:SetLibrary(Luxury)
+SaveManager:SetLibrary(Fluent)
+InterfaceManager:SetLibrary(Fluent)
 
 -- Ignore keys that are used by ThemeManager.
 -- (we dont want configs to save themes, do we?)
@@ -209,8 +258,8 @@ SaveManager:SetIgnoreIndexes({})
 -- use case for doing it this way:
 -- a script hub could have themes in a global folder
 -- and game configs in a separate folder per game
-InterfaceManager:SetFolder("LuxuryScriptHub")
-SaveManager:SetFolder("LuxuryScriptHub/specific-game")
+InterfaceManager:SetFolder("FluentScriptHub")
+SaveManager:SetFolder("FluentScriptHub/specific-game")
 
 InterfaceManager:BuildInterfaceSection(Tabs.Settings)
 SaveManager:BuildConfigSection(Tabs.Settings)
@@ -218,8 +267,8 @@ SaveManager:BuildConfigSection(Tabs.Settings)
 
 Window:SelectTab(1)
 
-Luxury:Notify({
-    Title = "Luxury",
+Fluent:Notify({
+    Title = "Fluent",
     Content = "The script has been loaded.",
     Duration = 8
 })
