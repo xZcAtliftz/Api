@@ -81,7 +81,7 @@ Main.Position = UDim2.new(0.081166774, 0, 0.0841463208, 0)
 Main.Size = UDim2.new(0, 50, 0, 50)
 Main.Image = "http://www.roblox.com/asset/?id=12095230917"
 
-MakeDraggable(Main)
+MakeDraggable(Main,Main)
 
 Main.MouseButton1Click:Connect(function()
     game:GetService("VirtualInputManager"):SendKeyEvent(true,"LeftControl",false,game.Players.LocalPlayer.Character.HumanoidRootPart)
