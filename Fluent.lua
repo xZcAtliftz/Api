@@ -80,7 +80,7 @@ do
 
 	local DBQ = Tabs.Main:AddToggle("MyToggle", {Title = "BleQuest", Default = false })
 
-    Farm_Level:OnChanged(function(value)
+    DBQ:OnChanged(function(value)
         DBQ = value
     end)
 
